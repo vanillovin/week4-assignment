@@ -1,63 +1,38 @@
-// const Comment = styled.div`
-//   padding: 7px 10px;
-//   text-align: left;
+import { IComment } from '../types/comments.type';
 
-//   & > img {
-//     vertical-align: middle;
-//     margin-right: 10px;
-//     border-radius: 50%;
-//     width: 50px;
-//     height: 50px;
-//   }
-// `;
+interface CommentListProps {
+  comments: IComment[];
+}
 
-// const CreatedAt = styled.div`
-//   float: right;
-//   vertical-align: middle;
-// `;
-
-// const Content = styled.div`
-//   margin: 10px 0;
-// `;
-
-// const Button = styled.div`
-//   text-align: right;
-//   margin: 10px 0;
-//   & > a {
-//     margin-right: 10px;
-//     padding: 0.375rem 0.75rem;
-//     border-radius: 0.25rem;
-//     border: 1px solid lightgray;
-//     cursor: pointer;
-//   }
-// `;
-
-// 임시 데이터 입니다. 코드 작성시 data 부분을 지워주세요
-const data = [
-  {
-    id: 1,
-    profile_url: 'https://picsum.photos/id/1/50/50',
-    author: 'abc_1',
-    content: 'UI 테스트는 어떻게 진행하나요',
-    createdAt: '2020-05-01',
-  },
-];
-
-function CommentList() {
-  return <div>CommentList</div>;
-  // return data.map((comment, key) => (
-  //   <div key={key}>
-  //     <img src={comment.profile_url} alt="" />
-  //     {comment.author}
-  //     <div>{comment.createdAt}</div>
-  //     <div>{comment.content}</div>
-  //     <button>
-  //       <a>수정</a>
-  //       <a>삭제</a>
-  //     </button>
-  //     <hr />
-  //   </div>
-  // ));
+function CommentList({ comments }: CommentListProps) {
+  return (
+    <ul className="flex flex-col border m-10">
+      {comments.map((comment, key) => (
+        <li key={key} className="p-3 border-b last:border-0">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center">
+              <img
+                src={comment.profile_url}
+                alt=""
+                className="rounded-full mr-2 w-10 h-10 tablet:w-12 tablet:h-12"
+              />
+              <span className="font-medium text-sm tablet:text-base">
+                {comment.author}
+              </span>
+              <span className="text-gray-600 ml-1 text-xs tablet:text-sm">
+                {comment.createdAt}
+              </span>
+            </div>
+            <div>
+              <button className="rounded-sm bg-red-100 px-1">수정</button>
+              <button className="rounded-sm bg-red-200 px-1 ml-2">삭제</button>
+            </div>
+          </div>
+          <div className="px-1 py-2">{comment.content}</div>
+        </li>
+      ))}
+    </ul>
+  );
 }
 
 export default CommentList;

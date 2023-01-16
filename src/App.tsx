@@ -1,5 +1,11 @@
+import CommentListContainer from './containers/CommentListContainer';
+
 function App() {
-  return <div>App</div>;
+  return (
+    <div>
+      <CommentListContainer />
+    </div>
+  );
 }
 
 export default App;
