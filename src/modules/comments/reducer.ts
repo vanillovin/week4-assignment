@@ -1,4 +1,8 @@
-import { handleAsyncActions, reducerUtils } from '../../lib/asyncUtils';
+import {
+  handleAsyncActions,
+  handleAsyncActionsById,
+  reducerUtils,
+} from '../../lib/asyncUtils';
 import {
   GET_COMMENTS,
   GET_COMMENTS_SUCCESS,
@@ -20,38 +24,7 @@ const initialState: InitialState = {
 };
 
 const getCommentsReducer = handleAsyncActions(GET_COMMENTS, 'comments', true);
-const getCommentReducer = (state = initialState, action: CommentsAction) => {
-  switch (action.type) {
-    case GET_COMMENT:
-      return {
-        ...state,
-        comment: {
-          ...state.comment,
-          [action.meta]: reducerUtils.loading(
-            state.comment[action.meta] && state.comment[action.meta].data
-          ),
-        },
-      };
-    case GET_COMMENT_SUCCESS:
-      return {
-        ...state,
-        comment: {
-          ...state.comment,
-          [action.meta]: reducerUtils.success(action.payload),
-        },
-      };
-    case GET_COMMENT_FAILURE:
-      return {
-        ...state,
-        comment: {
-          ...state.comment,
-          [action.meta]: reducerUtils.error(action.payload),
-        },
-      };
-    default:
-      return state;
-  }
-};
+const getCommentReducer = handleAsyncActionsById(GET_COMMENT, 'comment', true);
 
 function comments(state = initialState, action: CommentsAction): InitialState {
   switch (action.type) {
