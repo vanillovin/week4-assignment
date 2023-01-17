@@ -31,13 +31,12 @@ export const getCommentsThunk =
 
 export const getCommentsByIdThunk =
   (id: number): ThunkAction<void, RootState, null, CommentsAction> =>
-  async (dispatch: any, getState) => {
-    dispatch(getCommentStarted());
+  async (dispatch: any) => {
+    dispatch(getCommentStarted(id));
     try {
       const response = await CommentAPI.getCommentsById(id);
-      const comment = await response.data;
-      dispatch(getCommentSuccess(comment));
+      dispatch(getCommentSuccess(response.data, id));
     } catch (e) {
-      dispatch(getCommentFailure(e as Error));
+      dispatch(getCommentFailure(e as Error, id));
     }
   };

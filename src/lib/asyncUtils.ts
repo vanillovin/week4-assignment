@@ -22,12 +22,12 @@ export const createPromiseThunk = (type: any, promiseCreator: any) => {
 };
 
 export const reducerUtils = {
-  initial: (data = null) => ({
+  initial: (data: any = null) => ({
     data,
     loading: false,
     error: null,
   }),
-  loading: (prevState = null) => ({
+  loading: (prevState: any = null) => ({
     data: prevState,
     loading: true,
     error: null,

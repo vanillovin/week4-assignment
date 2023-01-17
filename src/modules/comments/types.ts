@@ -24,9 +24,11 @@ export type CommentsState = {
 };
 
 export type CommentState = {
-  loading: boolean;
-  error: Error | null;
-  data: IComment | null;
+  [key: number]: {
+    loading: boolean;
+    error: Error | null;
+    data: IComment | null;
+  };
 };
 
 // export type AppDispatch = typeof store.dispatch;
