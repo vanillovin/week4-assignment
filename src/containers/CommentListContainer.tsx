@@ -6,23 +6,28 @@ import { getCommentsThunk } from '../modules/comments';
 import CommentList from '../components/CommentList';
 import Loading from '../components/Loading';
 import Error from '../components/Error';
+import { useNavigate } from 'react-router';
 
 function CommentListContainer() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const { data, loading, error } = useSelector(
-    (state: RootState) => state.comments
+    (state: RootState) => state.comments.comments
   );
 
-  useEffect(() => {
-    // [redux-toolkit을 사용하지 않은 경우 as any로 타입 지정을 해줘야했다.](https://muhly.tistory.com/145)
-    dispatch(getCommentsThunk() as any);
-  }, [dispatch]);
+  const onChangePath = (id: number) => navigate(`/comments/${id}`);
 
-  if (loading) return <Loading />;
+  useEffect(() => {
+    if (data) return;
+    dispatch(getCommentsThunk() as any);
+  }, [data, dispatch]);
+
+  if (loading && !data) return <Loading />;
   if (error) return <Error />;
   if (!data) return null;
 
-  return <CommentList comments={data} />;
+  return <CommentList comments={data} onChangePath={onChangePath} />;
 }
 
 export default CommentListContainer;
