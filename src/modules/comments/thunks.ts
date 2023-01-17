@@ -6,19 +6,19 @@ import {
   getCommentsStarted,
   getCommentsSuccess,
   getCommentsFailure,
+  getCommentStarted,
+  getCommentSuccess,
+  getCommentFailure,
 } from './actions';
 
-// ThunkAction <thunk 함수의 반환 값 타입,
-// 스토어의 상태 타입,
-// redux-thunk 미들웨어의 Extra Argument 타입,
-// dispatch할수있는액션들의타입 >
-export const getCommentsThunk = (): ThunkAction<
-  void,
-  RootState,
-  null,
-  CommentsAction
-> => {
-  return async (dispatch: any) => {
+// thunk 함수에선 액션을 dispatch 할 수 있고, getState를 사용해 현재 상태도 조회할 수 있음.
+// ThunkAction <thunk 함수의 반환 값 타입, 스토어의 상태 타입, redux-thunk 미들웨어의 Extra Argument 타입, dispatch할수있는액션들의타입 >
+// ThunkDispatch<{}, {}, AnyAction>
+// thunk creator function
+export const getCommentsThunk =
+  (): ThunkAction<void, RootState, null, CommentsAction> =>
+  // 정확하게 따지자면 이 부분까지가 thunk 함수
+  async (dispatch: any, getState) => {
     dispatch(getCommentsStarted());
     try {
       const response = await CommentAPI.getComments();
@@ -28,4 +28,16 @@ export const getCommentsThunk = (): ThunkAction<
       dispatch(getCommentsFailure(e as Error));
     }
   };
-};
+
+export const getCommentsByIdThunk =
+  (id: number): ThunkAction<void, RootState, null, CommentsAction> =>
+  async (dispatch: any, getState) => {
+    dispatch(getCommentStarted());
+    try {
+      const response = await CommentAPI.getCommentsById(id);
+      const comment = await response.data;
+      dispatch(getCommentSuccess(comment));
+    } catch (e) {
+      dispatch(getCommentFailure(e as Error));
+    }
+  };

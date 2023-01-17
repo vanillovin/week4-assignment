@@ -9,7 +9,7 @@ const rootReducer = combineReducers({ comments });
 
 const store = createStore(
   rootReducer,
-  composeWithDevTools(applyMiddleware(logger, thunk))
+  composeWithDevTools(applyMiddleware(thunk, logger))
 );
 
 export default store;

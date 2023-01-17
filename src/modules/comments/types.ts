@@ -2,6 +2,9 @@ import {
   getCommentsStarted,
   getCommentsSuccess,
   getCommentsFailure,
+  getCommentStarted,
+  getCommentSuccess,
+  getCommentFailure,
 } from './actions';
 import { type IComment } from '../../types/comments.type';
 
@@ -9,13 +12,21 @@ import { type IComment } from '../../types/comments.type';
 export type CommentsAction =
   | ReturnType<typeof getCommentsStarted>
   | ReturnType<typeof getCommentsSuccess>
-  | ReturnType<typeof getCommentsFailure>;
+  | ReturnType<typeof getCommentsFailure>
+  | ReturnType<typeof getCommentStarted>
+  | ReturnType<typeof getCommentSuccess>
+  | ReturnType<typeof getCommentFailure>;
 
-// 이거다른파일로빼기
 export type CommentsState = {
   loading: boolean;
   error: Error | null;
   data: IComment[] | null;
+};
+
+export type CommentState = {
+  loading: boolean;
+  error: Error | null;
+  data: IComment | null;
 };
 
 // export type AppDispatch = typeof store.dispatch;
