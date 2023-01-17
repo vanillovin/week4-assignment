@@ -1,3 +1,4 @@
+import { handleAsyncActions, reducerUtils } from '../../lib/asyncUtils';
 import {
   GET_COMMENTS,
   GET_COMMENTS_SUCCESS,
@@ -14,66 +15,23 @@ type InitialState = {
 };
 
 const initialState: InitialState = {
-  comments: {
-    loading: false,
-    data: null,
-    error: null,
-  },
-  comment: {
-    loading: false,
-    data: null,
-    error: null,
-  },
+  comments: reducerUtils.initial(),
+  comment: reducerUtils.initial(),
 };
+
+const getCommentsReducer = handleAsyncActions(GET_COMMENTS, 'comments', true);
+const getCommentReducer = handleAsyncActions(GET_COMMENT, 'comment', true);
 
 function comments(state = initialState, action: CommentsAction): InitialState {
   switch (action.type) {
     case GET_COMMENTS:
-      return {
-        ...state,
-        comments: { ...state.comments, loading: true },
-      };
     case GET_COMMENTS_SUCCESS:
-      return {
-        ...state,
-        comments: {
-          ...state.comments,
-          loading: false,
-          data: action.payload.comments,
-        },
-      };
     case GET_COMMENTS_FAILURE:
-      return {
-        ...state,
-        comments: {
-          ...state.comments,
-          loading: false,
-          error: action.payload.error,
-        },
-      };
+      return getCommentsReducer(state, action);
     case GET_COMMENT:
-      return {
-        ...state,
-        comment: { ...state.comment, loading: true },
-      };
     case GET_COMMENT_SUCCESS:
-      return {
-        ...state,
-        comment: {
-          ...state.comment,
-          loading: false,
-          data: action.payload.comment,
-        },
-      };
     case GET_COMMENT_FAILURE:
-      return {
-        ...state,
-        comment: {
-          ...state.comment,
-          loading: false,
-          error: action.payload.error,
-        },
-      };
+      return getCommentReducer(state, action);
     default:
       return state;
   }
